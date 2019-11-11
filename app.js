@@ -1,6 +1,17 @@
 var express = require("express");
 var app = express()
-var bodyPaser = require("body-parser");
+// var bodyPaser = require("body-parser");
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host : 'localhost',
+    port : 3305,
+    user : 'studyuser',
+    password : '1234',
+    database : 'studydb'
+});
+
+connection.connect();
+
 app.listen(3000, function(){
     console.log("strat");
 });

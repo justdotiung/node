@@ -3,9 +3,9 @@ document.querySelector('.ajaxsend').addEventListener('click', () => {
     const inputdata = document.querySelector(".email"); 
     const vlaue = inputdata.value;
     
-    //sendAjax('http://localhost:3000/ajax_send_email',vlaue); 
-    // sendAjaxx('http://localhost:3000/ajax_send_email',vlaue);
-    sendAjaxxx('http://localhost:3000/ajax_send_email',vlaue);
+    //sendAjax('http://localhost:3000/email/ajax',vlaue); 
+    //sendAjaxx('http://localhost:3000/ajax_send_email',vlaue);
+    sendAjaxxx('http://localhost:3000/email/ajax',vlaue);
 });
 
 
@@ -20,6 +20,11 @@ function sendAjax(url, data){
        
     xhr.addEventListener('load', function(){
         console.log(xhr.responseText);
+        // if(result.result !=="ok")
+        // return;
+        const result = JSON.parse(xhr.responseText);
+        document.querySelector(".divc").innerHTML = result.name+'이게된다니';
+        console.log(result.name);
     }) 
 }
 function sendAjaxx(url,data){
@@ -32,8 +37,8 @@ function sendAjaxx(url,data){
         }
     }
     fetch(url,init)
-    .then(res=> res.json())
-    .then(json =>console.log(json.body.email))
+    .then(res => res.json())
+    .then(json =>console.log(json))
     .catch(err => console.log(err))
 }
 
@@ -50,8 +55,8 @@ async function sendAjaxxx(url,data){
     const reqURL= await fetch(url,init);
     const result= await reqURL.json();
    
-    if(result.result !=="ok")
-        return;
-    document.querySelector(".divc").innerHTML = result.email+'이게된다니';
-    console.log(result);
+    // if(result.result !=="ok")
+    //     return;
+    document.querySelector(".divc").innerHTML = result.name+'이게된다니';
+    console.log(result.name);
 }

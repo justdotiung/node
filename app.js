@@ -1,12 +1,36 @@
 var express = require("express");
 var app = express();
-const main = require('./router/main');
-const index = require('./router/index');
-const email = require('./router/email');
+const louter = require('./router/index');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const flash = require('connect-flash'); 
+
+
+app.listen(3000, function(){
+    console.log("strat");
+});
+
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.set("view engine", "ejs");
+
+app.use(session({
+    secret: '@#@$MYSIGN#@$#$',
+    resave: false,
+    saveUninitialized: true
+   }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash);
+app.use(louter);
+
+
+
 
 // var bodyPaser = require("body-parser");
-//mysql 
-
 
 //promise를 사용하는 mysql2
 /*
@@ -22,19 +46,3 @@ const studydb = async() => {
     const connection2 = await pool.getConnection(async conn => conn);
 };
 */
-
-app.listen(3000, function(){
-    console.log("strat");
-});
-
-app.use(express.static('public'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use('/main',main);
-app.use('/',index);
-app.use('/email',email);
-
-app.set("view engine", "ejs");
-
-
-

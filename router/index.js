@@ -4,6 +4,7 @@ const path = require('path');
 const main = require('./main/main');
 const email = require('./email/email');
 const join = require('./join/index');
+const login = require('./login/index');
 
 
 router.get('/', (req,res) =>{
@@ -13,6 +14,7 @@ router.get('/', (req,res) =>{
 router.use('/main',main);
 router.use('/email',email);
 router.use('/join',join);
+router.use('/login',login);
 
 module.exports =router;
 

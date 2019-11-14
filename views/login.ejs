@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+</head>
+<body>
+    <form action="/email/form" method="post">
+        email : <input type="text" name="email" class="email"><br>
+        password : <input type="password" name="pw" class="pw">
+    </form>
+    <button class="ajaxsend">ajaxsend</button>
+    <div class="divc"><%= message%></div>
+    <script src="/js/login.js"></script>
+</body>
+</html>

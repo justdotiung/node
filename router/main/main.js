@@ -3,11 +3,10 @@ const router = express.Router();
 const path = require('path');
 
 router.get('/', (req,res) =>{
-    //res.send("hi friendfff~!")
     console.log("main js :",req.user);
-    //console.log("main js :",id);   
-    //res.sendFile(path.join(__dirname ,"../../public/main.html"));
-    res.render('main.ejs',{ 'id' : req.user});
+    //세션저장
+    const id = req.user;
+    res.render('main.ejs',{ 'id' : id});
 }); 
 
 module.exports =router;

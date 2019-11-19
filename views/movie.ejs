@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>movie list</title>
+</head>
+<body>
+    <header>
+        <div><a href="/main/">메인페이지</a></div>
+        <div><a href="/logout/">logout</a></div>
+    </header>
+    <h1>Movie list API Test</h1>
+
+    <section class="show-wrap">
+        <ul>
+            <li class="get-all">
+                <button>모든영화보기</button>
+                <section class="show-result"></section>
+            </li>
+
+            <li class="post">
+                <form action="" method="post">
+                    <div>제목 : <input type="text" name="title" placeholder="Terminator"></div>
+                    <div>장르 : <input type="text" name="type" placeholder="Terminator"></div>
+                    <div>평점 : <input type="text" name="grade" placeholder="Terminator"></div>
+                    <div>주연 : <input type="text" name="actor" placeholder="Terminator"></div>
+                </form>
+                <button>영화추가</button>
+                <section class="show-result"></section>
+            </li>
+
+            <li class="get-id">
+                <input type="text" name="title">
+                <button>영화상세정보</button>
+                <section class="show-result"></section>
+            </li>
+
+            <li class="delete-d">
+                    <input type="text" name="title">
+                    <button>영화삭제</button>
+                    <section class="show-result"></section>
+                    
+                </li>
+    
+            <li class="update-id">
+                <form action="" method="post">
+                    <div> 제목 : <input type="text" name="title" placeholder="Terminator"> </div>
+                    <div> 장르 : <input type="text" name="type"  placeholder="drama"> </div>
+                    <div> 평점 : <input type="text" name="grade" placeholder="8.43"> </div>
+                    <div> 주연 : <input type="text" name="acter" placeholder="Tom cruise"> </div>
+                </form>
+                <button>영화정보갱신</button>
+                <section class="show-result">ㅁㅁ</section>
+            </li>
+    
+                <li class="get-min">
+                    <button>현재 상영중인영화</button>
+                    <section class="show-result">aaa</section>
+                </li>
+
+        </ul>
+    </section>
+    <script src="/js/movie.js"></script>
+</body>
+</html>

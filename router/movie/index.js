@@ -17,15 +17,16 @@ router.get('/list',(req,res) => {
 });
 
 router.get('/',(req,res) => {
-    result={}; 
-        
-    const query = connection.query("select * from movie",(err,rows) => {
+    result={};   
+        slq = "select * from movie";
+    if(req.query.min)
+        slq = "select * from movie limit 2";
+    const query = connection.query(slq,(err,rows) => {
         if(err)
             throw err;
         if(rows.length){
             result.result = 1;
             result.data = rows;    
-            console.log(rows);
         }else {
             result.result = 0;
         }
@@ -51,13 +52,14 @@ router.post('/',(req,res) => {
 router.get('/:title',(req,res) => {
     result={}; 
     const title = req.params.title;     
+    console.log(title)
     const query = connection.query("select * from movie where title = ?",title,(err,rows) => {
        console.log(rows);
         if(err)
             throw err;
-        if(rows.length){
+        if(rows[0]){
             result.result = 1;
-            result.data = rows;    
+            result.data = rows[0].title;
         }else {
             result.result = 0;
         }
@@ -68,10 +70,10 @@ router.get('/:title',(req,res) => {
 router.delete('/:title',(req,res) => {
     result={}; 
     const title = req.params.title;
-        
+     
     const query = connection.query("delete from movie where title = ?",title,(err,rows) => {
         if(err)
-            throw err;
+        throw err;
         if(rows.affectedRows > 0){
             result.result = 1;
             result.data = title;    
@@ -83,13 +85,26 @@ router.delete('/:title',(req,res) => {
 });
 
 router.put('/:title',(req,res) => {
+    const result ={};
+    
     const title = req.body.title;
     const type = req.body.type;
     const grade = req.body.grade;
     const acter = req.body.actor;
+    
+   // const movie = {type,title,title};
+    const query = connection.query("update movie set type= ?, grade = ?, acter = ? where title = ?",[type,grade,acter, title],(err,rows) => {
+        console.log(rows);
+        if(err)
+        throw err;
+        // if(rows.changedRows === 1)
+            return res.json({'result' : 1});
+        // else
+        // return res.json({'result' : 0});
+    });
+});
 
-   console.log(title);
-})
+
 
 module.exports =router;
 

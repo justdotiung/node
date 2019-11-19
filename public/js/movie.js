@@ -9,9 +9,9 @@ document.querySelector('.show-wrap').addEventListener("click",(e) =>{
     if(target.tagName != 'BUTTON') return;
 
     switch(type){
-
+        
         case "get-all":
-            url = "/movie";
+            url = "/movies";
             method = "GET";
             fn = (result) =>{
                 if(result.result ===1 ) {
@@ -27,38 +27,41 @@ document.querySelector('.show-wrap').addEventListener("click",(e) =>{
             }
             break;
 
-        case "post":
-            url = "/movie";
-            method = "POST";
-            const inputs = [].slice.call(document.querySelector("form").elements);
-            console.log(inputs[0]);
-            data = inputs.reduce((pre, next) =>{
-                pre[next.name] = next.value;
-                return pre;
-            },{});
-            fn = (result) =>{
-                if(result.result ===1){
-                    showResult.innerHTML = "새로운 영화 데이터 추가";
-                }else{
-                    showResult.innerHTML = "영화추가 실패";
+            case "post":
+                url = "/movies";
+                method = "POST";
+                const inputs = [].slice.call(document.querySelector("form").elements);
+                console.log(inputs[0]);
+                data = inputs.reduce((pre, next) =>{
+                    pre[next.name] = next.value;
+                   // console.log(pre);
+                    return pre;
+                },{});
+                fn = (result) =>{
+                    if(result.result ===1){
+                        showResult.innerHTML = "새로운 영화 데이터 추가";
+                    }else{
+                        showResult.innerHTML = "영화추가 실패";
+                    }
                 }
-            }
-            break;
-
-        case "get-id":
-            url = "/movie/"+li.getElementsByTagName("input")[0].value;
-            method = "GET";
-            fn = (result) =>{
-                if(result.result ===1 && result.data.title){
-                    showResult.innerHTML = result.data[0].title;
-                }else{
-                    showResult.innerHTML = "영화가 없습니다.";
-                }
+                break;
+                
+            case "get-id":
+                url = "/movies/"+li.getElementsByTagName("input")[0].value;
+                method = "Get";
+                console.log(url)
+                fn = (result) =>{
+                    console.log(result.data);
+                    if(result.result ===1 ){
+                         showResult.innerHTML = result.data;
+                    }else{
+                      showResult.innerHTML = "영화가 없습니다.";
+                    }
             }
             break;
 
         case "delete-d":
-            url = "/movie/"+li.getElementsByTagName("input")[0].value;
+            url = "/movies/"+li.getElementsByTagName("input")[0].value;
             method ="DELETE";
             fn = (result) =>{
                 if(result.result ===1 ){
@@ -70,26 +73,50 @@ document.querySelector('.show-wrap').addEventListener("click",(e) =>{
             break;
 
         case "update-id":
-            url = "/movie/";
+            url = "/movies/"+li.getElementsByTagName("input")[0].value;
             method = "PUT";
-           const inputss = [].slice.call(document.querySelector("form").elements);
-            data = inputss.reduce((pre, next) =>{
-                pre[next.name] = next.value;
-                return pre;
-            },{});
+            data = {
+                title : li.getElementsByTagName("input")[0].value,
+                type  : li.getElementsByTagName("input")[1].value,
+                grade : li.getElementsByTagName("input")[2].value,
+                actor : li.getElementsByTagName("input")[3].value
+            
+            } 
+            console.log(li.getElementsByTagName("input")[0].value);
             fn = (result) =>{
-                if(result.result ===1){
+                console.log(result.result)
+                if(result.result === 1){
                     showResult.innerHTML = " 영화 데이터 변경";
                 }else{
                     showResult.innerHTML = "영화변경 실패";
                 }
             }
             break;
+        case "get-min":
+            url = "/movies?min="+9;
+            method = "GET";
+         
+            fn = (result) =>{
+                if(result.result === 1 ) {
+                    
+                    let titles = result.data.reduce((pre,next) => {
+                        pre += "<li>"+next.title+"</li>"
+                        return pre;
+                    },"");
+                     showResult.innerHTML = "<ul>" + titles + "</ul>";
+                }else{
+                    showResult.innerHTML ="list not found";
+                }
+            }
+            break;
+
         default:
             console.log("default");
             break;
         }
-        sendAjax(url,method,data,fn);
+        //sendAjax(url,method,data,fn);
+        //sendAjaxx(url,method,data,fn);
+        sendAjaxxx(url,method,data,fn);
 });
             
 const sendAjax = (url,method,data,fn) => {
@@ -108,4 +135,32 @@ const sendAjax = (url,method,data,fn) => {
         fn(result);
     });
 }
-        
+
+function sendAjaxx(url,method,data,fn){
+    const init = {
+        method : method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': "application/json"
+        }
+    }
+    fetch(url,init)
+    .then(res => res.json())
+    .then(result =>fn(result))
+    .catch(err => console.log(err))
+}
+
+async function sendAjaxxx(url,method,data,fn){
+    const init = {
+        method : method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': "application/json"
+        }
+    }
+
+    const reqURL= await fetch(url,init);
+    const result= await reqURL.json();
+    
+    fn(result);
+}    

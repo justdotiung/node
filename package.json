@@ -15,11 +15,15 @@
   "devDependencies": {
     "connect-flash": "^0.1.1",
     "express-session": "^1.17.0",
+    "mocha": "^6.2.2",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "test": "mocha ./index.spec.js"
   },
   "author": "",
   "license": "ISC"

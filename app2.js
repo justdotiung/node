@@ -1,18 +1,19 @@
 const express = require('express')
-//logger 미들웨어 
 const logger = require('morgan')
-//app 어플리케이션 생성
+
+const users = [
+    { id: 1, name: 'Alice'},
+    { id: 2, name: 'Blice'},
+    { id: 3, name: 'Clice'}
+]
+
 const app = express()
 
-const mw = (req, res, next) => {
-    // throw Error('error!')
-    next()
-}
+app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/users/', (req, res) => {
+    req.query.limit = req.query.limit || 10
+    const limit = parseInt(req.query.limit,10)
+    res.json(users.slice(0, limit))
+})
 
-const errorMw = (err, req, res, next) => {console.log(err.message)}
-
-app.use(logger('dev'))
-app.use(mw)
-app.use(errorMw)
-
-app.listen(3000, () => console.log('running'))
+module.exports = app

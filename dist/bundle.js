@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("console.log(\"start project by webpack \")\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const myfun = () => {\r\n    let name = \"crong\";\r\n    console.log('mu name is'+name);\r\n}\r\n\r\nmyfun();\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

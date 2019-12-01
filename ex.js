@@ -1,0 +1,68 @@
+const users =  [
+    {id: 1, name: 'id', age: 19},
+    {id: 2, name: '1id', age: 29},
+    {id: 3, name: '2id', age: 39},
+    {id: 4, name: '3id', age: 49},
+    {id: 5, name: '4id', age: 59},
+    {id: 6, name: '5id', age: 69}
+];
+
+/* 명령형 코드*/ 
+
+//1. 30세 이상인 users를 거른다.
+const tempUsers =[];
+for(let i = 0; i < users.length ; i++){
+    if(users[i].age >= 30)
+        tempUsers.push(users[i]);
+}
+console.log(tempUsers);
+
+//2. 30세 이상인 users의 name 수집
+const name = [];
+for(let i = 0; i < tempUsers.length ; i++){
+    name.push(tempUsers[i].name);
+}
+console.log(name);
+
+//3. 30세 미만인 users를 거른다.
+const tempUsers2 = [];
+for(let i = 0; i < users.length ; i++){
+    if(users[i].age < 30)
+    tempUsers2.push(users[i]);
+}
+console.log(tempUsers2);
+
+//4. 30세 미만인 users의 age 수집.
+const age = [];
+for(let i = 0; i < tempUsers2.length ; i++){
+    age.push(tempUsers2[i].age);
+}
+console.log(age);
+
+/*함수형으로 리팩토링하기*/
+// 중복의 함수를  filter , map으로 리팩토링하기
+const _filter = (list, predi) => {
+    const newList = [];
+    for(let i = 0; i < list.length ; i++){
+        if(predi(list[i]))
+        newList.push(list[i]);
+    }
+    return newList;
+};
+
+console.log("함수형 리팩토링", _filter(users, (users) => users.age > 30));
+console.log("함수형 리팩토링", _filter(users, (users) => users.age <= 30));
+//이런식으로 확장성이 커진다
+// console.log("함수형 리팩토링", _filter([1,2,3,4,5], (list) => list > 1));
+// console.log("함수형 리팩토링", _filter([1,2,3,4,5], (list) => list > 1));
+const _map = (list,mapper) => {
+    const newList = [];
+    for(let i = 0; i < list.length ; i++){
+        newList.push(mapper(list[i]));
+    }
+    return newList;
+}
+console.log("함수형 리팩토링", _map(_filter(users, (users) => users.age <= 30),(users) => users.age));
+// console.log("함수형 리팩토링", _map([1,2,3,4],(num) => num -2 ));
+
+    

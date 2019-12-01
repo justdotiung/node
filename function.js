@@ -61,7 +61,7 @@ const addMaker = (a) => (b) => a+b ;
 const add6 = addMaker(6);
 
 console.log( add6(10));
- 
+//이런 형태를 가지고있는것이 함수형 프로그래밍이다. 
 const f4 =(f1,f2,f3) => f3( f1() + f2() ) ;
 
 console.log( 

@@ -49,11 +49,12 @@ const _filter = (list, predi) => {
     }
     return newList;
 };
+const newArr = _filter(users, (users) => users.age > 30);
 
 console.log("함수형 리팩토링", _filter(users, (users) => users.age > 30));
+console.log("함수형 리팩토링", newArr);
 console.log("함수형 리팩토링", _filter(users, (users) => users.age <= 30));
 //이런식으로 확장성이 커진다
-// console.log("함수형 리팩토링", _filter([1,2,3,4,5], (list) => list > 1));
 // console.log("함수형 리팩토링", _filter([1,2,3,4,5], (list) => list > 1));
 const _map = (list,mapper) => {
     const newList = [];
@@ -62,7 +63,16 @@ const _map = (list,mapper) => {
     }
     return newList;
 }
-console.log("함수형 리팩토링", _map(_filter(users, (users) => users.age <= 30),(users) => users.age));
-// console.log("함수형 리팩토링", _map([1,2,3,4],(num) => num -2 ));
 
+console.log(_map(newArr,(array)  =>array.name));
+// 확장성이 커진 _map
+//console.log(_map([1,2,3,4],(array)=>array*2));
+
+//함수형으로 _map() 과 _filter() 를 사용하기
+console.log( _map(_filter(users, (users) => users.age > 30),(user) => user.name));
+
+const _ = require('./_.js');
+
+console.log("함수형 _.js리팩토링", _.filter(users, (users) => users.age > 30));
+console.log("함수형 _.js리팩토링" ,_.map(_.filter(users, (users) => users.age > 30),(user) => user.name));
     

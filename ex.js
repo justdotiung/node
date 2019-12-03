@@ -72,6 +72,7 @@ console.log(_map(newArr,(array)  =>array.name));
 console.log( _map(_filter(users, (users) => users.age > 30),(user) => user.name));
 
 const _ = require('./_.js');
+const __ = require('./curry.js');
 
 console.log("함수형 _.js리팩토링", _.filter(users, (users) => users.age > 30));
 console.log("함수형 _.js리팩토링" ,_.map(_.filter(users, (users) => users.age > 30),(user) => user.name));

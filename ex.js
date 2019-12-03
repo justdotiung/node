@@ -79,3 +79,16 @@ console.log("함수형 _.js리팩토링" ,_.map(_.filter(users, (users) => users
 
 console.log("array" ,_.map([1,2,3,4] ,(arr) => arr % 2 ));
 console.log("array" ,_.filter([1,2,3,4] ,(arr) => arr % 2 ));
+
+//_get() 만들기
+//const _get = (obj, key) => obj === undefined || obj === null ? undefined : obj[key];
+
+const _get = __._curryr((obj, key) => obj === undefined || obj === null ? undefined : obj[key]);
+
+const getName = _get('name');
+//조건으로인해 좀더 유연한 값을 갖게 만든다. 
+//console.log(_get(users[11],'id'));
+console.log(getName(users[1]));
+console.log( _map(_filter(users, (users) => users.age > 30),(user) => user.name));
+console.log( _map(_filter(users, (users) => users.age > 30),_get('name')));
+console.log( _map(_filter(users, (users) => users.age > 30),_get('age')));

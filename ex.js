@@ -75,4 +75,6 @@ const _ = require('./_.js');
 
 console.log("함수형 _.js리팩토링", _.filter(users, (users) => users.age > 30));
 console.log("함수형 _.js리팩토링" ,_.map(_.filter(users, (users) => users.age > 30),(user) => user.name));
-    
+
+console.log("array" ,_.map([1,2,3,4] ,(arr) => arr % 2 ));
+console.log("array" ,_.filter([1,2,3,4] ,(arr) => arr % 2 ));

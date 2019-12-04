@@ -83,12 +83,41 @@ console.log("array" ,_.filter([1,2,3,4] ,(arr) => arr % 2 ));
 //_get() 만들기
 //const _get = (obj, key) => obj === undefined || obj === null ? undefined : obj[key];
 
-const _get = __._curryr((obj, key) => obj === undefined || obj === null ? undefined : obj[key]);
+const _get = __.curryr((obj, key) => obj === undefined || obj === null ? undefined : obj[key]);
 
 const getName = _get('name');
 //조건으로인해 좀더 유연한 값을 갖게 만든다. 
-//console.log(_get(users[11],'id'));
+//console.log(_get(users[1],'id'));
 console.log(getName(users[1]));
 console.log( _map(_filter(users, (users) => users.age > 30),(user) => user.name));
 console.log( _map(_filter(users, (users) => users.age > 30),_get('name')));
 console.log( _map(_filter(users, (users) => users.age > 30),_get('age')));
+
+console.clear();
+//_reduce 반복적으로 돌면서 
+const add = (a, b) => a + b; 
+const slice = Array.prototype.slice;
+const _rest = (list, num) => slice.call(list, num || 1); 
+const _reduce = (list, iter, memo) => { _.each(list, val => memo = iter(memo, val)); return memo };
+
+console.log(_reduce([1,2,3],add,0));//6
+console.log(_reduce([1,2,3],add,10));//16
+
+//arraylike 에서 적용이된다
+const a = {0: 1, 1: 2, 2: 3, length: 3 };
+// Array.prototype.slice 의 this가 a 를 가르키게 된다
+
+console.log(_rest(a,1));
+console.log(Array.prototype.slice.call(a,1));
+// console.log(a.slice(1)); 배열이 아니기때문에 오류가 나온다.
+
+
+function reduce(list, iter,memo) {
+    if(arguments.length == 2){
+        memo = list[0];
+        list = _rest(list);
+    }
+    _.each(list, (val) => memo = iter(memo, val));
+    return memo;
+}
+console.log(reduce([1,2,3],add));//6을 도출하게 만들어야한다.

@@ -120,4 +120,4 @@ function reduce(list, iter,memo) {
     _.each(list, (val) => memo = iter(memo, val));
     return memo;
 }
-console.log(reduce([1,2,3],add));//6을 도출하게 만들어야한다.
+console.log(_.reduce([1,2,3],add,10));//6을 도출하게 만들어야한다.

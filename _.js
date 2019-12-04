@@ -20,8 +20,22 @@ const each = (list, iter) => {
     }
 }
 
+const slice = Array.prototype.slice;
+const _rest = (list, num) => slice.call(list, num || 1); 
+
+
+function reduce(list, iter,memo) {
+    if(arguments.length == 2){
+        memo = list[0];
+        list = _rest(list);
+    }
+    each(list, val => memo = iter(memo, val));
+    return memo;
+}
+
 module.exports = {
     filter,
     map,
-    each
+    each,
+    reduce
 }

@@ -8,12 +8,18 @@ const get = curryr((obj, key) => obj === null || obj === undefined ? undefined :
 const slice = Array.prototype.slice;
 
 const length = get('length');
-
+//boolean 처리를 위한 !!연산자 사용
+const _is_object = obj => typeof obj == 'object' && !!obj ;
+//오류처리의 다형성 
+const _keys = obj => _is_object(obj) ? Object.keys(obj) : [];
 //null, undefined 처리 
 const each = (list, iter) => {
-    for(let i = 0, len = length(list); i < len ; i++){ 
-        iter(list[i])
+    const keys = _keys(list);
+    
+    for(let i = 0; i < keys.length ; i++){ 
+        iter(list[keys[i]])
     }
+    return list;
 }
 
 const filter = (list, predi) => {
@@ -57,12 +63,9 @@ function go(arg){
     return pipe.apply(null, fns)(arg);
 }
 
-const _is_object = obj => typeof obj == 'object' && !!obj ;
-
-const keys = obj => _is_object(obj) ? Object.keys(obj) : [];
 
 
-module.exports = {
+module.exports = { 
     filter,
     map,
     each,
@@ -71,6 +74,5 @@ module.exports = {
     go,
     curry,
     curryr,
-    get,
-    keys
+    get
 }

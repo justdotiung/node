@@ -159,7 +159,7 @@ _.go(users,
     __map(__.get('name')),
     console.log);
 
-// console.clear();
+console.clear();
 // key만 보여주는 함수
 console.log(Object.keys(users));
 console.log(Object.keys([1,2,3,4]));

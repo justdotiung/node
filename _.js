@@ -1,3 +1,21 @@
+const curry = (fn) => (...args) => args.length == 2 ? fn(...args) : (b) => fn(...args, b);
+
+const curryr = (fn) => (...args) => args.length == 2 ? fn(...args) : (b) => fn(b, ...args);
+//null check 기능
+const get = curryr((obj, key) => obj === null || obj === undefined ? undefined : obj[key]);
+
+//arraylike 와같은것을 slice할수있게한다.
+const slice = Array.prototype.slice;
+
+const length = get('length');
+
+//null, undefined 처리 
+const each = (list, iter) => {
+    for(let i = 0, len = length(list); i < len ; i++){ 
+        iter(list[i])
+    }
+}
+
 const filter = (list, predi) => {
     const newList = [];
     each(list, (val) => {
@@ -13,15 +31,8 @@ const map = (list,mapper) => {
     return newList;
 }
 
-//기존 filter와 map 에서 for문 중복 제거.
-const each = (list, iter) => {
-    for(let i = 0; i < list.length ; i++){
-        iter(list[i])
-    }
-}
 
-//arraylike 와같은것을 slice할수있게한다.
-const slice = Array.prototype.slice;
+
 const _rest = (list, num) => slice.call(list, num || 1); 
 
 
@@ -46,11 +57,11 @@ function go(arg){
     return pipe.apply(null, fns)(arg);
 }
 
-const curry = (fn) => (...args) => args.length == 2 ? fn(...args) : (b) => fn(...args, b);
+const _is_object = obj => typeof obj == 'object' && !!obj ;
 
-const curryr = (fn) => (...args) => args.length == 2 ? fn(...args) : (b) => fn(b, ...args);
+const keys = obj => _is_object(obj) ? Object.keys(obj) : [];
 
-const get = curryr((obj, key) => obj === null || obj === undefined ? undefined : obj[key]);
+
 module.exports = {
     filter,
     map,
@@ -60,5 +71,6 @@ module.exports = {
     go,
     curry,
     curryr,
-    get
+    get,
+    keys
 }

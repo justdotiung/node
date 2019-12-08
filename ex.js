@@ -159,3 +159,17 @@ _.go(users,
     __map(__.get('name')),
     console.log);
 
+// console.clear();
+// key만 보여주는 함수
+console.log(Object.keys(users));
+console.log(Object.keys([1,2,3,4]));
+//null 을 넣어도  에러가 나지않게
+_.each(null, console.log);
+console.log(_.map(null, n => n * 2));
+//console.log(Object.keys(null)); 에러가 난다.
+
+_.each({
+    13: 'id',
+    28: 'hd',
+    11: 'yd'
+}, name => console.log(name));

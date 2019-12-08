@@ -11,13 +11,15 @@ const length = get('length');
 //boolean 처리를 위한 !!연산자 사용
 const _is_object = obj => typeof obj == 'object' && !!obj ;
 //오류처리의 다형성 
-const _keys = obj => _is_object(obj) ? Object.keys(obj) : [];
+const keys = obj => _is_object(obj) ? Object.keys(obj) : [];
+//역으로 주는 함수
+const negate = func => val => !func(val);
 //null, undefined 처리 
 const each = (list, iter) => {
-    const keys = _keys(list);
+    const _keys = keys(list);
     
-    for(let i = 0; i < keys.length ; i++){ 
-        iter(list[keys[i]])
+    for(let i = 0; i < _keys.length ; i++){ 
+        iter(list[_keys[i]])
     }
     return list;
 }
@@ -64,12 +66,33 @@ function go(arg){
 }
 
 //curryr을 적용한 filter , map  함수
-const _filter = curryr(_.filter);
-const _map = curryr(_.map);
+const rfilter = curryr(filter);
+const rmap = curryr(map);
+
+//keys와 마찬가지로 객체형태로 들어왔을경우 value값만 뽑아준다.
+// const values = data => rmap(data, val => val);
+const values = data => rmap(data, identity);//함수 선언식
+// const _values = rmap(identity) ;// 함수 표현식 으로서 호이스팅 불가능
+const identity = val => val;
+
+// const pluck = (data, key) => map(data, obj => obj[key]);
+const pluck = (data, key) => map(data, get(key));
+
+// const reject = (data, predi) => rfilter(data, val => !predi(val));
+const reject = (data, predi) => rfilter(data, negate(predi));
+
+const compact = rfilter(identity);
+//못찾으면 undefined 를 반환
+const find = (list, predi) => {
+    const _keys = keys(list);
+    for(let i = 0 , len = _keys.length; i< len ; i++){
+        const val = list[_keys[i]];
+        if(predi(val)) return val;
+    }
+
+}
 
 module.exports = { 
-    filter,
-    map,
     each,
     reduce,
     pipe,
@@ -77,6 +100,13 @@ module.exports = {
     curry,
     curryr,
     get,
-    _filter,
-    _map
+    rfilter,
+    rmap,
+    values,
+    keys,
+    identity,
+    pluck,
+    reject,
+    compact,
+    find
 }

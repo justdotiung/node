@@ -121,3 +121,41 @@ function reduce(list, iter,memo) {
     return memo;
 }
 console.log(_.reduce([1,2,3],add,10));//6을 도출하게 만들어야한다.
+
+//파이프라인 만들기
+const f1 = _.pipe(
+    a => a + 1,
+    a => a * 2,
+    a => a + 2,
+    a => a * a
+);
+
+console.log(f1(1));
+
+_.go(1,
+    a => a + 1,
+    a => a * 2,
+    a => a * a,
+    console.log
+);
+
+console.log( _map(_filter(users, (users) => users.age > 30),_get('name')));
+console.log( _map(_filter(users, (users) => users.age > 30),_get('age')));
+
+//user에  go적용하기
+_.go(users,
+    users => _.filter(users, users => users.age >30),
+    users=> _.map(users,__.get('name')),
+    console.log);
+
+//curryr을 적용한 filter , map  함수
+const __filter = __.curryr(_.filter);
+const __map = __.curryr(_.map);
+
+
+//curryr을 적용한 filter , map 의 go 함수를적용
+_.go(users,
+    __filter(users => users.age > 30),
+    __map(__.get('name')),
+    console.log);
+

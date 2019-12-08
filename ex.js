@@ -173,3 +173,15 @@ _.each({
     28: 'hd',
     11: 'yd'
 }, name => console.log(name));
+
+_.go({
+    13: users[0],
+    28: users[2],
+    11: users[4]
+}, __map(user => user.name.toLowerCase()),
+console.log);
+
+_.go(users,
+    __map( user => user.name),
+    __map( name => name.toLowerCase()),
+console.log);

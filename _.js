@@ -63,7 +63,9 @@ function go(arg){
     return pipe.apply(null, fns)(arg);
 }
 
-
+//curryr을 적용한 filter , map  함수
+const _filter = curryr(_.filter);
+const _map = curryr(_.map);
 
 module.exports = { 
     filter,
@@ -74,5 +76,7 @@ module.exports = {
     go,
     curry,
     curryr,
-    get
+    get,
+    _filter,
+    _map
 }

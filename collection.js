@@ -30,4 +30,23 @@ console.log(_.reject(users, user => user.age>30));
 
 console.log(_.compact([1,2,0,false,null,{},[],undefined]));
 
-console.log(_.find(users, user => user.name == "AJ"));
+console.log(_.find(users, user => user.id == 90));
+console.log(_.find_index(users, user => user.name == "AJ" ));
+
+_.go(users,
+    _.find(user => user.id ==90),
+    _.get('name'),
+    console.log);
+    
+console.log(_.some([1,2,3,4]));
+console.log(_.some([null,undefined, 0]));
+console.log(_.some([null,undefined, 1]));
+console.log(_.every([1,2,3,4]));
+console.log(_.every([null,undefined, 0]));
+console.log(_.every([null,undefined, 1]));
+
+console.clear();
+
+console.log(_.rfilter(users, user => user.age >20));
+console.log(_.min([1,2,3,4,-1]));
+console.log(_.max([1,2,3,4,-1]));

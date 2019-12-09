@@ -1,6 +1,6 @@
-const curry = (fn) => (...args) => args.length == 2 ? fn(...args) : (b) => fn(...args, b);
+const curry = fn => (...args) => args.length == 2 ? fn(...args) : b => fn(...args, b);
 
-const curryr = (fn) => (...args) => args.length == 2 ? fn(...args) : (b) => fn(b, ...args);
+const curryr = fn => (...args) => args.length == 2 ? fn(...args) : b => fn(b, ...args);
 //null check 기능
 const get = curryr((obj, key) => obj === null || obj === undefined ? undefined : obj[key]);
 
@@ -16,7 +16,7 @@ const keys = obj => _is_object(obj) ? Object.keys(obj) : [];
 const negate = func => val => !func(val);
 //null, undefined 처리 
 const each = (list, iter) => {
-    const _keys = keys(list);
+    const _keys = keys(list);    
     
     for(let i = 0; i < _keys.length ; i++){ 
         iter(list[_keys[i]])
@@ -83,14 +83,30 @@ const reject = (data, predi) => rfilter(data, negate(predi));
 
 const compact = rfilter(identity);
 //못찾으면 undefined 를 반환
-const find = (list, predi) => {
+const find = curryr((list, predi) => {
     const _keys = keys(list);
     for(let i = 0 , len = _keys.length; i< len ; i++){
         const val = list[_keys[i]];
         if(predi(val)) return val;
     }
+});
 
-}
+const find_index = curryr((list, predi) => {
+    const _keys = keys(list);
+    for (let i = 0; i < _keys.length; i++) {
+        const val = list[_keys[i]];
+        if(predi(val)) return i;
+    }
+    return -1;
+});
+
+const some = (data, predi) => find_index(data, predi || identity) != -1;
+ 
+const every = (data, predi) => find_index(data, negate(predi || identity)) == -1;
+
+const min = data => reduce(data, (a, b) => a < b ? a : b);
+
+const max = data => reduce(data, (a, b) => a > b ? a : b);
 
 module.exports = { 
     each,
@@ -108,5 +124,10 @@ module.exports = {
     pluck,
     reject,
     compact,
-    find
+    find,
+    find_index,
+    some,
+    every,
+    min,
+    max
 }

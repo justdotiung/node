@@ -19,7 +19,7 @@ const each = (list, iter) => {
     const _keys = keys(list);    
     
     for(let i = 0; i < _keys.length ; i++){ 
-        iter(list[_keys[i]])
+        iter(list[_keys[i]], _keys[i])
     }
     return list;
 }
@@ -35,7 +35,7 @@ const filter = (list, predi) => {
 
 const map = (list,mapper) => {
     const newList = [];
-    each(list, (val) => newList.push(mapper(val)));
+    each(list, (val, key) => newList.push(mapper(val, key)));
     return newList;
 }
 
@@ -108,26 +108,27 @@ const min = data => reduce(data, (a, b) => a < b ? a : b);
 
 const max = data => reduce(data, (a, b) => a > b ? a : b);
 
+const min_by = curryr((data, iter) => reduce(data, (a, b) => iter(a) < iter(b) ? a : b));
+
+const max_by = curryr((data, iter) => reduce(data, (a, b) => iter(a) > iter(b) ? a : b));
+
+const push = (obj, key, val) => { (obj[key] =obj[key] || [] ).push(val);  return obj; } ;
+
+const group_by = curryr((data, iter) => reduce(data, (grouped, val) => push(grouped, iter(val), val), {}));
+
+const inc = (count, key) => { count[key] ? count[key]++ : count[key] = 1; return count }
+
+// const count_by =  curryr((data, iter) => reduce(data, (count, val) => {
+    //     const key = iter(val); 
+    //     count[key] ? count[key]++ : count[key] =1; 
+    //     return count;}, {}));
+    
+const count_by = curryr((data, iter) => reduce(data, (count, val) => inc(count, iter(val)), {}));
+
+const pairs = rmap((val, key) => [key, val]);
+
 module.exports = { 
-    each,
-    reduce,
-    pipe,
-    go,
-    curry,
-    curryr,
-    get,
-    rfilter,
-    rmap,
-    values,
-    keys,
-    identity,
-    pluck,
-    reject,
-    compact,
-    find,
-    find_index,
-    some,
-    every,
-    min,
-    max
+    each, reduce, pipe, go, curry, curryr, get, rfilter, rmap,
+    values, keys, identity, pluck, reject, compact, find, find_index,
+    some, every, min, max, min_by, max_by, group_by, count_by , pairs
 }

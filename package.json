@@ -15,7 +15,7 @@
   "devDependencies": {
     "connect-flash": "^0.1.1",
     "express-session": "^1.17.0",
-    "mocha": "^6.2.2",
+    "mocha": "^10.2.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "should": "^13.2.3",
